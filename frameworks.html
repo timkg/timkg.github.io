@@ -83,10 +83,19 @@ glance at our product yields an interesting amount of different components:
 * Exam mode
 
 We can easily identify prime candidates for library extraction.
-All lessons share the fact that they are made up of trainers. Every trainer
-transforms its Trainer Items into a series of challenges. Every solution attempt
-is scored. Every solved Trainer Item displays some information to the user.
+Every Trainer transforms its Trainer Items into a series of exercises. Every Exercise
+expects a solution. Every solution attempt is scored. Every solved Trainer Item
+displays some information to the user.
 
-The way trainers behave and are sequenced differs slightly depending on the context
-in which they are used - lesson, review, or exam mode. A text dictate trainer knows how to read the text, to start a 
-fillin gap, and to display the L1 text. But when to do which of these operations
+A Text Dictate trainer knows how to play its sound, how to start a fillin gap,
+how to listen for its completion, and how to display the L1 text which provides
+the translation of the written text. In the same manner, a Matching Trainer knows
+how to display all of its L1 gaps on the left, all of its L2 gaps on the right,
+how to play the respective sound upon match, and how to slide the matched elements
+to the center. In other words, all trainers know how they should start, behave, and end.
+
+This commonality allows for easy outside orchestration. Extracting away the starting,
+ performing and stopping of a trainer allows us to build a framework.
+This framework controls the page flow by starting trainers and listening for their completion,
+cycling this way through all trainers sequentially. Automating this repetitive task
+allows us to focus on the particularities instead of repetitive low-level control.
