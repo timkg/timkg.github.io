@@ -1,0 +1,92 @@
+## Frameworks and Libraries
+
+### Library
+
+A library is a collection of reusable pieces of code. A library is passive,
+in the sense that it doesn't control the lifecycle and behaviour of the application.
+
+(Phaser.io GameObjectFactory example)
+
+### Framework
+
+A framework controls the event loop. It is active, in the sense of controlling
+the behaviour of its elements. This principle is called `inversion of control`.
+Programming "inside" a framework means delegating control to the framework. We specify
+the behaviour of each constituent part of the framework, but the orchestration
+of each part is done by the framework itself.
+
+(Phaser.io State preload, create, update example)
+
+## Tech domain and business domain
+
+Libraries and frameworks encapsulate common domain behaviour.
+There are two distinct domains - tech domain and business domain.
+
+### Tech domain
+The technological domain is the environment in which an application runs.
+In the case of modern web apps, this domain is frontend web development -
+the web browser.
+
+Frontend development contains a specific set of challenges. The most well known
+is probably cross-browser inconsistency. Addressing this challenge
+is what turned jQuery famous. Hidden behind a convenient API of element
+selection and attribute modification lies the bulk of jQuery's contribution to
+frontend development, namely normalising inconsistent browser implementations
+of the W3C standard.
+
+But there are other interesting challenges to frontend development.
+The modern web is a multi-device, interactive information and communication platform
+with its roots in static document publishing. The base metaphor is still one
+of page views - a page is requested, transferred, and rendered.
+On top of that rather limiting architecture developers are supposed to implement
+feature-rich digital products. This means tackling the following issues:
+
+* asset delivery - getting html, css, js, and images to client devices
+* rendering - displaying elements on the screen
+* user input - reacting to user input
+* ajax calls - performing http requests and dealing with responses, without triggering navigation
+* component lifecycle management - starting and shutting down of pieces of functionality,
+without leading to memory leaks or unwanted side effects
+* component interaction - coordinating data flow between pieces of functionality
+
+Frontend development is far more than simply rendering some visual elements to the screen.
+UI programming is a substantial part of application development, indepentently of
+the environment and platform. Additionally, frontend development is encumbered
+by its environment's document-centric nature, the request and response model,
+and deployment to a multitude of devices, all with varying screen resolutions, input devices and
+implementation standards.
+
+### Business domain
+
+The business domain contains the components and interactions which define
+the product. All web applications share the aforementioned technological
+domain (and the respective challenges which afford library and framework construction).
+But a wiki, an online drawing application, and a 2d physics platformer differ
+in regards to what they provide to their users.
+
+In the case of Babbel, the business domain is language education. Even a quick
+glance at our product yields an interesting amount of different components:
+
+* Language
+* Course
+* Lesson
+* Exercise
+* Trainer
+* Trainer Items
+* Solution attempt
+* Solution helper
+* Scoring
+* Sequencing of exercises
+* Purge Error flow
+* Lesson mode
+* Review mode
+* Exam mode
+
+We can easily identify prime candidates for library extraction.
+All lessons share the fact that they are made up of trainers. Every trainer
+transforms its Trainer Items into a series of challenges. Every solution attempt
+is scored. Every solved Trainer Item displays some information to the user.
+
+The way trainers behave and are sequenced differs slightly depending on the context
+in which they are used - lesson, review, or exam mode. A text dictate trainer knows how to read the text, to start a 
+fillin gap, and to display the L1 text. But when to do which of these operations
