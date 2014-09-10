@@ -1,0 +1,59 @@
+function defineStateTransitions (callback, obj) {
+  var stateMachine = {
+    from: function (state) {
+      /*...*/
+      return this;
+    },
+    on: function (event) {},
+    to: function (state) {},
+  }
+
+  obj.mixin(stateMachine)
+
+  callback.call(obj, stateMachine.from)
+}
+
+defineStateTransitions(function (from) {
+  from(started)
+    .on('correct').to('playingSound')
+    .on('mistake').to('started')
+    .on('skip').to('finished')
+    .on('iDontKnow').to('finished')
+
+  from('playingSound')
+    .on('soundFinished').to('finished')
+}, this)
+
+started: function () {}
+
+playingSound: function () {
+  b3.soundController.play(this.sound, function () {
+    this.emit('soundFinished');
+  })
+}
+
+finished: function () {
+  this.emit('finished')
+}
+
+onCorrect: function (event) {
+  this.promise.resolve(event);
+}
+
+onMistake: function (event) {
+  this.promise.reject(event);
+}
+
+onSkip: function (event) {
+
+}
+
+onIDontKnow: function (event) {
+  this.showSolution();
+  this.promise.reject(new IDontKnowEvent());
+}
+
+on('click')
+on('startDrag')
+on('close')
+on('...')
